@@ -15,7 +15,6 @@ Features
 *   **Order Tracking**: Buyers can track their orders from purchase to delivery.
 *   **Stripe Payment Integration**: Secure and reliable payment processing using Stripe.
 *   **User Authentication**: Secure authentication system with registration and login functionality.
-*   **Real-Time Notifications**: Receive updates on orders and other important activities.
 *   **Customizable UI**: Easily customizable Bootstrap-based front end.
 
 Installation

@@ -1,0 +1,107 @@
+
+{% extends 'base.html' %} {% block title %} Seller Dashboard {% endblock %} 
+{% block content %}
+    <style>
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+
+        .form-section h5 {
+            margin-bottom: 20px;
+        }
+
+        .form-section .form-group {
+            margin-bottom: 20px;
+        }
+
+        .product-image-preview {
+            display: block;
+            margin-top: 10px;
+            max-width: 200px;
+            max-height: 200px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+
+        .product-image-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container my-5">
+        {% if messages %} {% for message in messages %}
+        <div class="alert {{message.extra_tags}}" role="alert">
+          {{ message }}
+        </div>
+        {% endfor %} {% endif %}
+        <h2 class="text-center mb-4">Add New Product</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Basic Information -->
+            <div class="form-section">
+                <h5>Basic Information</h5>
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" name="name" class="form-control" id="productName" placeholder="Enter product name" required>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <select class="form-control" name="category" id="productCategory" required>
+                        <option value="" disabled selected>Select category</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="home-garden">Home & Garden</option>
+                        <option value="health-beauty">Health & Beauty</option>
+                        <option value="automotive">Automotive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea class="form-control" name="description" id="productDescription" rows="4" placeholder="Enter product description" required></textarea>
+                </div>
+            </div>
+
+            <!-- Pricing Information -->
+            <div class="form-section">
+                <h5>Pricing Information</h5>
+                <div class="form-group">
+                    <label for="productPrice">Price</label>
+                    <input type="number" name="price" class="form-control" id="productPrice" placeholder="Enter price" required>
+                </div>
+                <div class="form-group">
+                    <label for="productStock">Stock Quantity</label>
+                    <input type="number" name="stock" class="form-control" id="productStock" placeholder="Enter stock quantity" required>
+                </div>
+            </div>
+            <div class="form-section">
+                <h5>Product Images</h5>
+                <div class="product-image-group">
+                    <label for="productImage1">Upload Image 1</label>
+                    <input type="file" name="image" class="form-control" id="productImage1" accept="image/*" onchange="previewImage(event, 'imagePreview1')" required>
+                    <img id="imagePreview1" class="product-image-preview" src="https://via.placeholder.com/200" alt="Image Preview 1">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event, previewId) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const output = document.getElementById(previewId);
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

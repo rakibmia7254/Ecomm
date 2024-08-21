@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block title %} Product {% endblock %} 
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <!-- Product Image -->
+    <div class="col-md-6">
+      <img
+        src="{{ product.image.url }}"
+        class="img-fluid"
+        alt="Product Name"
+      />
+    </div>
+    <!-- Product Details -->
+    <div class="col-md-6">
+      <h1>{{ product.name }}</h1>
+      <p class="text-muted">Shop: <a href="{% url 'shop' shop_id=product.shop.id %}">{{ product.shop.name }}</a></p>
+      <p class="text-muted">Category: {{ product.category }}</p>
+      <h4>${{ product.price }}</h4>
+      <p>{{ product.description }}</p>
+      </p>
+      <a href="{% url 'add_to_cart' slug=product.slug %}?next={{ request.path }}" class="btn btn-primary btn-lg mb-3">Add to Cart</a>
+      <a class="btn btn-outline-secondary btn-lg mb-3" href="{% url 'checkout' slug=product.slug %}">Buy Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- Related Products Section -->
+<div class="container my-5">
+  <h3>Related Products</h3>
+  {% if not related_products %}
+  <p>No related products found.</p>
+  {% endif %}
+  <div class="row">
+    {% for product in related_products %}
+    <div class="col-md-3">
+      <div class="card">
+        <img
+          src="{{ product.image.url }}"
+          class="card-img-top"
+          alt="Related Product 1"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">${{ product.price }}</p>
+          <div class="btn-group">
+            <a href="{% url 'add_to_cart' slug=product.slug %}?next={{ request.path }}" class="btn btn-primary">Add to Cart</a>
+            <a href="{% url 'product_page' slug=product.slug %}" class="btn btn-outline-secondary">View Product</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

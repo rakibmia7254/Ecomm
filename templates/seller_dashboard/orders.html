@@ -1,0 +1,153 @@
+{% extends 'seller_dashboard/base.html' %} {% block title %} Seller Dashboard
+{%endblock %} {% block content %}
+<div class="container mt-5">
+  <div class="container my-5">
+    {% if messages %} {% for message in messages %}
+    <div class="alert {{message.extra_tags}}" role="alert">{{ message }}</div>
+    {% endfor %} {% endif %}
+    <h1 class="mb-4">Seller Dashboard</h1>
+
+    <!-- Total Sales -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Total Order</h5>
+        <h3>{{ orders.count }}</h3>
+      </div>
+    </div>
+
+
+    <!-- Panding Orders -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Panding Orders</h5>
+        <h3>{{ panding.count }}</h3>
+      </div>
+    </div>
+
+    <!--Panding Orders Table -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Panding Orders</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Product</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Amount</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in panding %}
+            <tr>
+              <td>{{ order.id }}</td>
+              <td>{{ order.product }}</td>
+              <td>{{ order.created_at }}</td>
+              <td>{{ order.status }}</td>
+              <td>${{ order.total_amount }}</td>
+              <td>
+                <a
+                  href="{% url 'seller_orders' order.id %}"
+                  class="btn btn-primary btn-sm"
+                  >View Order</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Canceled Orders -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Canceled Orders</h5>
+        <h3>{{ canceled.count }}</h3>
+      </div>
+    </div>
+    <!-- Canceled Orders Table -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Canceled Orders</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Product</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Amount</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in canceled %}
+            <tr>
+              <td>{{ order.id }}</td>
+              <td>{{ order.product }}</td>
+              <td>{{ order.created_at }}</td>
+              <td>{{ order.status }}</td>
+              <td>${{ order.total_amount }}</td>
+              <td>
+                <a
+                  href="{% url 'seller_orders' order.id %}"
+                  class="btn btn-primary btn-sm"
+                  >View Order</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Completed Orders -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Completed Orders</h5>
+        <h3>{{ completed.count }}</h3>
+      </div>
+    </div>
+
+    <!-- Completed Orders Table -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Completed Orders</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Product</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Amount</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in completed %}
+            <tr>
+              <td>{{ order.id }}</td>
+              <td>{{ order.product }}</td>
+              <td>{{ order.created_at }}</td>
+              <td>{{ order.status }}</td>
+              <td>${{ order.total_amount }}</td>
+              <td>
+                <a
+                  href="{% url 'seller_orders' order.id %}"
+                  class="btn btn-primary btn-sm"
+                  >View Order</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

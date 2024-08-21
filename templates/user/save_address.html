@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block title %} Home {% endblock %} 
+{% block content %}
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Add New Address</h2>
+        <div class="container px-5">
+            {% if messages %} {% for message in messages %}
+                      <div class="alert {{message.extra_tags}}" role="alert">
+                        {{ message }}
+                      </div>
+                      {% endfor %} {% endif %}
+                
+                <div id="newAddressForm" class="mt-4">
+                    <h4>Enter New Address</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="customerName" class="form-label">Full Name</label>
+                            <input type="text"  name="customerName" class="form-control" id="customerName" value="{{ customer.first_name }} {{ customer.last_name }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" name="city" class="form-control" id="city" placeholder="Enter city" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" name="phoneNumber" class="form-control" id="phoneNumber" placeholder="Enter phone number" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="streetAddress" class="form-label">Street Address</label>
+                            <textarea type="text" name="streetAddress" class="form-control" id="streetAddress" placeholder="Enter street address" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Address</button>
+                    </form>
+
+                </div>
+            </div>
+            </div>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% block title %} Home {% endblock %} 
+{% block content %}
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Checkout</h2>
+
+        <div class="container px-5">
+            <div class="container px-5">
+                <!-- Saved Addresses Section -->
+                <h4>Select Shipping Address</h4>
+                {% if messages %} {% for message in messages %}
+                      <div class="alert {{message.extra_tags}}" role="alert">
+                        {{ message }}
+                      </div>
+                      {% endfor %} {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                <div class="mb-3">
+                    {% if saved_addresses %}
+                    <label for="savedAddresses" class="form-label">Saved Addresses</label>
+                    <select class="form-select" name="savedAddresses" id="savedAddresses">
+                        {% for address in saved_addresses %}
+                        <option value="{{ address.id }}">{{ address.address }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                    <p>New Address? <a href="{% url 'save_address' %}?next={{ request.path }}">Enter New Address</a></p>
+                </div>
+
+                <div class="mb-3">
+                    <h4>Select Payment Method</h4>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="payment_method" value="Cash On Delivery" checked>
+                            Cash On Delivery
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="payment_method" value="Credit Card">
+                            Credit Card
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h4>Order Summary</h4>
+                <ul class="list-group mb-3">
+                     {% for product in products %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>{{ product.name }} (x{{ product.quantity }})</span>
+                        <strong>${{ product.total }}</strong>
+                    </li>
+                    {% endfor %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (USD)</span>
+                        <strong>${{ subtotal }}</strong>
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-primary w-100">Place Order</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

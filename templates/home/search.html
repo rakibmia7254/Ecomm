@@ -1,0 +1,92 @@
+{% extends 'base.html' %} {% block title %} Home {% endblock %} 
+{% block content %}
+<style>
+  .section-products .header {
+    margin-bottom: 50px;
+  }
+  .card {
+    max-width: 18rem;
+  }
+
+  .card-img-top {
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .card-body {
+    padding: 0.75rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .btn-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .btn-group .btn {
+    flex-grow: 1;
+    margin: 0 2px;
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+  }
+</style>
+<div class="container mt-4 p-5">
+  <section class="section-products">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="header">
+            <h5>Search for: <strong>{{ q }}</strong></h5>
+          </div>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+        {% if not products %}
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">No products found</h5>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% for product in products %}
+        <div class="col">
+          <div class="card h-100">
+            <img
+              src="{{ product.image.url }}"
+              class="card-img-top"
+              alt="Product 1"
+              loading="lazy"
+            />
+            <div class="card-body text-center">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text">${{ product.price }}</p>
+              <div class="btn-group">
+                <a href="{% url 'add_to_cart' slug=product.slug %}?next={{ request.path }}" class="btn btn-primary">Add to Cart</a>
+                <a href="{% url 'product_page' slug=product.slug %}" class="btn btn-outline-secondary">View Product</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+
+
+
+        
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

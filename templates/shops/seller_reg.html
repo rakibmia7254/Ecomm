@@ -1,0 +1,138 @@
+
+{% extends 'base.html' %} 
+{% block title %} Seller Registration {% endblock %}
+{% block content %}
+    <style>
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+
+        .form-section h5 {
+            margin-bottom: 20px;
+        }
+
+        .form-section .form-group {
+            margin-bottom: 20px;
+        }
+
+        .shop-image-preview {
+            display: block;
+            margin-top: 10px;
+            max-width: 200px;
+            max-height: 200px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+    </style>
+
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Seller Registration</h2>
+        <form method="post">
+            {% csrf_token %}
+            <!-- Personal Information -->
+            <div class="form-section">
+                <h5>Personal Information</h5>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" name="first_name" class="form-control" id="firstName" placeholder="Enter your first name" value="{{ user.first_name }}" {% if user.is_authenticated %} disabled {% endif %} required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" id="lastName" placeholder="Enter your last name" value="{{ user.last_name }}" {% if user.is_authenticated %} disabled {% endif %} required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email address" value="{{ user.email }}" {% if user.is_authenticated %} disabled {% endif %} required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" name="phone" class="form-control" id="phone" placeholder="Enter your phone number" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shop Information -->
+            <div class="form-section">
+                <h5>Shop Information</h5>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="shopName">Shop Name</label>
+                        <input type="text" name="shop_name" class="form-control" id="shopName" placeholder="Enter your shop name" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="shopCategory">Shop Category</label>
+                        <select name="shop_category" class="form-control" id="shopCategory" required>
+                            <option value="" disabled selected>Select your shop category</option>
+                            <option value="fashion">Fashion</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="home-garden">Home & Garden</option>
+                            <option value="health-beauty">Health & Beauty</option>
+                            <option value="automotive">Automotive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="shopAddress">Shop Address</label>
+                        <input type="text" name="shop_address" class="form-control" id="shopAddress" placeholder="Enter your shop address" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="shopCity">City</label>
+                        <input type="text" name="shop_city" class="form-control" id="shopCity" placeholder="Enter your city" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="shopDescription">Shop Description</label>
+                    <textarea class="form-control" name="shop_description" id="shopDescription" rows="4" placeholder="Describe your shop" required></textarea>
+                </div>
+            </div>
+
+            <!-- Shop Image -->
+            <div class="form-section">
+                <h5>Shop Image</h5>
+                <div class="form-group">
+                    <label for="shopImage">Upload Shop Image</label>
+                    <input type="file" name="shop_image" class="form-control" id="shopImage" accept="image/*" onchange="previewImage(event)">
+                </div>
+                <img id="shopImagePreview" class="shop-image-preview" src="https://via.placeholder.com/200" alt="Shop Image Preview">
+            </div>
+
+            <!-- if not authenticated show password -->
+             {% if not user.is_authenticated %}
+            <div class="form-section">
+                <h5>Password</h5>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+            </div>
+            {% endif %}
+            
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Register as Seller</button>
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const output = document.getElementById('shopImagePreview');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+{% endblock %}

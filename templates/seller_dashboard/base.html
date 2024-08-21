@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% include 'cdns.html'%}
+    <title>{% block title %} {% endblock %} | Ecomm</title>
+  </head>
+  <body class="p-3 m-0 border-0 bd-example m-0 border-0">
+    {% include 'seller_dashboard/navbar.html'%} 
+    {% block content %} {% endblock %}
+
+    {% include 'footer.html'%}
+  </body>
+</html>

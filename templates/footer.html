@@ -1,0 +1,54 @@
+<footer class="text-dark my-4 mt-4">
+  <div class="container">
+      <div class="row">
+          <!-- Company Info -->
+          <div class="col-md-3">
+              <h5>About Us</h5>
+              <p class="text-body-secondary">
+                  Welcome to Our Multi-Vendor E-Commerce Platform. We connect buyers and sellers worldwide</p>
+          </div>
+          <!-- Quick Links -->
+          <div class="col-md-3">
+              <h5>Quick Links</h5>
+              <ul class="list-unstyled">
+                  <li><a href="#" class="text-dark text-body-secondary">Home</a></li>
+                  <li><a href="#" class="text-dark text-body-secondary">Shop</a></li>
+                  <li><a href="#" class="text-dark text-body-secondary">About Us</a></li>
+                  <li><a href="#" class="text-dark text-body-secondary">Contact Us</a></li>
+                  <li><a href="#" class="text-dark text-body-secondary">FAQ</a></li>
+                  <li><a href="#" class="text-dark text-body-secondary">Become a Vendor</a></li>
+              </ul>
+          </div>
+          <!-- Newsletter Subscription -->
+          <div class="col-md-3">
+              <h5>Newsletter</h5>
+              <p class="text-body-secondary">Subscribe to our newsletter for the latest updates and offers.</p>
+              <form action="{% url 'subscribe' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="path" value="{{ request.path }}">
+                  <div class="input-group mb-3">
+                      <input type="email" name="email" class="form-control" placeholder="Enter your email" aria-label="Email">
+                      <button class="btn btn-primary" type="submit">Subscribe</button>
+                  </div>
+              </form>
+          </div>
+          <!-- Social Media -->
+          <div class="col-md-3">
+              <h5>Follow Us</h5>
+              <div>
+                  <a href="#" class="text-dark me-3"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#" class="text-dark me-3"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="text-dark me-3"><i class="fab fa-instagram"></i></a>
+                  <a href="#" class="text-dark"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+          </div>
+      </div>
+      <hr class="my-4">
+      <div class="text-center">
+          <p>&copy; 2024 Your E-Commerce Website. All rights reserved.</p>
+      </div>
+  </div>
+</footer>
+
+<!-- Include Font Awesome for social icons -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/fontawesome.min.js" crossorigin="anonymous"></script>

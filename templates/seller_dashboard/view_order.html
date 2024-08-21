@@ -1,0 +1,51 @@
+{% extends 'seller_dashboard/base.html' %} {% block title %} Order Details {% endblock %} 
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Order Details</h1>
+        
+        <!-- Order Details -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Order ID: {{ order.id }}</h5>
+                <p><strong>Product:</strong> {{ order.product }}</p>
+                <p><strong>Date:</strong> {{ order.created_at }}</p>
+                <p><strong>Status:</strong> {{ order.status }}</p>
+                <p><strong>Amount:</strong> ${{ order.total_amount }}</p>
+                <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+                {% if payment_status %}
+                    <p><strong>Payment Status:</strong> {{ payment_status }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- User Information -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">User Information</h5>
+                <p><strong>Name:</strong> {{ order.address.full_name }}</p>
+                <p><strong>Email:</strong> {{ order.user.email }}</p>
+            </div>
+        </div>
+
+        <!-- Shipping Address -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Shipping Address</h5>
+                <p>{{ order.address.address }}</p>
+                <p>{{ order.address.city }}</p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="mb-4">
+            <a href="{% url 'generate_invoice' order_id=order.id %}" class="btn btn-primary">Download Invoice</a>
+            {% if order.status == 'Pending' %}
+            <a href="{% url 'shipping' order_id=order.id %}?next=/seller/dashboard/" class="btn btn-success">Ship Order</a>
+            <a href="#" class="btn btn-danger">Cancel Order</a>
+            {% endif %}
+        </div>
+
+        <!-- Back to Dashboard -->
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+{% endblock %}

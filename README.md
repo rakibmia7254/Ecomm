@@ -2,7 +2,7 @@
 
 Ecomm is a high-performance, multi-vendor e-commerce platform built with **Django 5.2**, **Vanilla JS**, and **Bootstrap**. It provides a robust architecture for marketplace owners where multiple sellers can manage their own storefronts while customers enjoy a seamless shopping experience.
 
-## 🚀 Features
+## Features
 
 -   **Multi-Vendor Ecosystem**: Independent shop registration and management for sellers.
 -   **Comprehensive Seller Dashboard**: Analytics, product CRUD, order management, and invoice generation.
@@ -16,7 +16,7 @@ Ecomm is a high-performance, multi-vendor e-commerce platform built with **Djang
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 1.  **Clone the repository:**
     ```bash
@@ -54,16 +54,34 @@ Ecomm is a high-performance, multi-vendor e-commerce platform built with **Djang
     python manage.py runserver
     ```
 
+7.  **Initialize Dev Data (Optional):**
+    Run the following command to create default accounts for testing:
+    ```bash
+    python manage.py setup_dev_data
+    ```
+
 ---
 
-## 🛣️ API Endpoints & Routes
+## Default Development Credentials
 
-### 🏠 Home & Discovery
+If you ran the `setup_dev_data` command, you can use these accounts to test the platform:
+
+| Account Type | Email | Password | Role |
+| :--- | :--- | :--- | :--- |
+| **Superuser** | `admin@example.com` | `adminpassword` | Full Admin Access |
+| **Seller** | `seller@example.com` | `password123` | Shop Manager |
+| **User** | `user@example.com` | `password123` | Customer |
+
+---
+
+## API Endpoints & Routes
+
+### Home & Discovery
 - `/` : Landing page with featured products/categories.
 - `/search/?q={query}` : Search for products.
 - `/subscribe/` : Newsletter subscription.
 
-### 👤 User Management
+### User Management
 - `/login/` : User authentication.
 - `/signup/` : New user registration (Auto-generates unique usernames).
 - `/logout/` : Session termination.
@@ -71,7 +89,7 @@ Ecomm is a high-performance, multi-vendor e-commerce platform built with **Djang
 - `/save_address/` : Add new shipping address.
 - `/edit_address/<id>/` : Modify existing address.
 
-### 🛍️ Shopping & Orders
+### Shopping & Orders
 - `/products/<slug>/` : Product detail page.
 - `/category/<slug>/` : Browse products by category.
 - `/add_to_cart/<slug>/` : Add product to session cart.
@@ -82,7 +100,7 @@ Ecomm is a high-performance, multi-vendor e-commerce platform built with **Djang
 - `/paymentCart/<order_id>/` : Process bulk cart payment.
 - `/order/<id>/` : View order status and details.
 
-### 🏪 Seller & Shop
+### Seller & Shop
 - `/register_shop/` : Become a vendor and create a shop.
 - `/shop/<id>/` : Public shop storefront.
 - `/seller/dashboard/` : Overview of sales, products, and orders.
@@ -94,11 +112,11 @@ Ecomm is a high-performance, multi-vendor e-commerce platform built with **Djang
 
 ---
 
-## 🛡️ Security & Validations
+## Security & Validations
 - **Circular Dependency Protection**: Resolved architectural loops between Products and Shops.
 - **Stock Validation**: Prevents checkout if product `in_stock` is insufficient.
 - **Ownership Security**: Sellers can only view or manage orders belonging to their own shop.
 - **Unique Identification**: Automatic collision-handling for usernames and slugs.
 
-## 📄 License
+## License
 Licensed under the [MIT License](LICENSE).

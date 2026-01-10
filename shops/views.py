@@ -15,7 +15,7 @@ def Shop(request, shop_id):
 class RegisterShop(View):
     def get(self, request):
 
-        if request.user.is_vendor:
+        if request.user.is_authenticated and request.user.is_vendor:
             return HttpResponseRedirect("/seller/dashboard/")
         
         return render(request, "shops/seller_reg.html")

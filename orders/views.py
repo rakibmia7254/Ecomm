@@ -210,8 +210,8 @@ class CartCheckoutView(View):
                 messages.info(request, "You can't order your own product", "alert-danger")
                 return HttpResponseRedirect(f"/")
 
-            if product.quantity < request.session["cart"][product.slug]["quantity"]:
-                messages.info(request, "Not enough stock", "alert-danger")
+            if product.in_stock < request.session["cart"][product.slug]["quantity"]:
+                messages.error(request, f"Not enough stock for {product.name}", "alert-danger")
                 return HttpResponseRedirect(f"/")
 
             order = order_models.Orders.objects.create(
@@ -223,7 +223,8 @@ class CartCheckoutView(View):
             )
             inOrder.orders_in.add(order)
             order.save()
-            product.quantity -= request.session["cart"][product.slug]["quantity"]
+            product.in_stock -= request.session["cart"][product.slug].get("quantity", 1)
+            product.save()
 
         inOrder.place()
 
@@ -270,7 +271,8 @@ class CheckoutView(View):
             return HttpResponseRedirect("/")
         
 
-        if product.quantity < request.POST.get("quantity"):
+        qty = int(request.POST.get("quantity", 1))
+        if product.in_stock < qty:
             messages.info(request, "Not enough stock", "alert-danger")
             return HttpResponseRedirect("/")
 
@@ -288,12 +290,14 @@ class CheckoutView(View):
             user=request.user,
             address=savedAddresses,
             payment_method=payment_method,
-            total_amount=product.price,
+            total_amount=product.price * qty,
             product=product,
+            quantity=qty,
         )
         order.save()
 
-        product.objects.update(in_stock=product.in_stock - order.quantity)
+        product.in_stock -= qty
+        product.save()
 
 
         if payment_method != "Cash On Delivery":

@@ -62,10 +62,22 @@ class Register(View):
             messages.error(request, "Email already exists", "alert-danger")
             return HttpResponseRedirect(request.path_info)
 
+        # Extract username from email
+        username = email.split('@')[0]
+        # Ensure unique username
+        base_username = username
+        counter = 1
+        while user_models.User.objects.filter(username=username).exists():
+            username = f"{base_username}{counter}"
+            counter += 1
+
         user = user_models.User.objects.create_user(
-            email=email, password=password, first_name=first_name, last_name=last_name
+            email=email, 
+            username=username,
+            password=password, 
+            first_name=first_name, 
+            last_name=last_name
         )
-        user.save()
 
         messages.success(request, "Account created successfully", "alert-success")
         login(request, user)  # login the user after registration

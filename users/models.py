@@ -3,15 +3,21 @@ from django.contrib.auth.models import AbstractUser, Group, Permission, UserMana
 
 
 class CustomUserManager(UserManager):
-    def create_vendor(self, username, password, shop_name, **extra_fields):
+    def create_vendor(self, email, password, shop_name, username=None, **extra_fields):
         extra_fields.setdefault("is_vendor", True)
         if not shop_name:
             raise ValueError("The given shop_name must be set")
-        return self.create_user(username, password, **extra_fields)
+        if not username:
+            username = email.split('@')[0]
+        extra_fields['username'] = username
+        return self.create_user(email, password, **extra_fields)
 
     def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("The given email must be set")
+        if 'username' not in extra_fields:
+            extra_fields['username'] = email.split('@')[0]
+            # Ensure unique username if possible here or let it fail if user/view handles it
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)

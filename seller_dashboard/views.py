@@ -50,7 +50,7 @@ def dashboard(request):
 
 def ViewOrder(request, order_id):
     order = get_object_or_404(order_models.Orders, id=order_id)
-    if not order.user == request.user:
+    if not order.product.shop.user == request.user:
         return HttpResponseRedirect("/")
 
     if not order.payment_method == "Cash On Delivery":
@@ -71,7 +71,7 @@ def ShipOrder(request, order_id):
         return HttpResponseRedirect("/login")
 
     order = get_object_or_404(order_models.Orders, id=order_id)
-    if not order.user == request.user:
+    if not order.product.shop.user == request.user:
         return HttpResponseRedirect("/")
 
     order.status = "Delivered"
@@ -88,7 +88,7 @@ def cancel_order(request, order_id):
         return HttpResponseRedirect("/login")
 
     order = get_object_or_404(order_models.Orders, id=order_id)
-    if not order.user == request.user:
+    if not order.product.shop.user == request.user:
         return HttpResponseRedirect("/")
 
     order.status = "Cancelled"
